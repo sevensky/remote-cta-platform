@@ -116,10 +116,6 @@ class BacktestService(object):
         @raise ServiceError:  
         '''
         
-        from guppy import hpy
-        h = hpy()
-        print h.heap()
-        
         # initialize strategy
         strategy = Strategy(backtest_settings['name'])
         
