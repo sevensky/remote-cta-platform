@@ -49,11 +49,11 @@ class TestInstrumentService(unittest.TestCase):
         
         instrument_serialized = self.instrument_service.get_by_ticker('MyTicker', datetime(1970,1,1), datetime(2030,1,1))
         
-        self.assertEqual(instrument_serialized.ticker, 'MyTicker', 'good ticker')
-        self.assertEqual(instrument_serialized.datas[0].value, 100., 'good market data value')
+        self.assertEqual(instrument_serialized['ticker'], 'MyTicker', 'good ticker')
+        self.assertEqual(instrument_serialized['datas'][0]['value'], 100., 'good market data value')
         
         instrument_serialized = self.instrument_service.get_by_ticker('MyTicker', datetime(2001,1,1), datetime(2030,1,1))
-        self.assertEqual(len(instrument_serialized.datas), 0, 'empty market data')
+        self.assertEqual(len(instrument_serialized['datas']), 0, 'empty market data')
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

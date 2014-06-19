@@ -26,6 +26,22 @@ class MarketDataDAO(object):
         
         return market_data
     
+    def save_all(self, session, data_list):
+        '''
+        persist market data
+        @param session: sqlalchemy session
+        @param market_data: the persisted market data
+        @return: the market data list 
+        '''
+        
+        try:
+            session.add_all(data_list)
+            session.commit()
+        except Exception, e:
+            session.rollback()
+            raise DataError(e.message)
+        
+        return data_list
     
     def delete(self, session, market_data):
         '''
@@ -56,17 +72,17 @@ class MarketDataDAO(object):
         
         return data
     
-    def get_data(self, session, instrument, date, type):
+    def get_data(self, session, instrument, date, data_type):
         '''
-        get market datum by instrument type and date
+        get market datum by instrument data_type and date
         @param session: sqlalchemy session
         @param instrument: the instrument
         @param date: the date
-        @param type: the type  
+        @param data_type: the data_type  
         '''
         try:
             data = session.query(MarketData).filter_by(instrument_id=instrument.id,
-                                                       date=date, type=type).first()
+                                                       date=date, data_type=data_type).first()
         except Exception, e:
             raise DataError(e.message)
         

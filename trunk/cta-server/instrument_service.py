@@ -4,8 +4,6 @@ Web services which return instrument
 '''
 from dao.instrument_dao import InstrumentDAO
 from dao.market_data_dao import MarketDataDAO
-from data.instrument_serialized import InstrumentSerialized
-from data.market_data_serialized import MarketDataSerialized
 from data_error import DataError
 from datetime import datetime, date
 from model.market_data import MarketData
@@ -26,31 +24,31 @@ class InstrumentService(object):
         self.__market_data_dao = MarketDataDAO()
     
     def market_data_model_to_serialized(self, market_data_model):
-        market_data_serialized = MarketDataSerialized()
-        market_data_serialized.id = market_data_model.id
-        market_data_serialized.value = market_data_model.value
-        market_data_serialized.data_type = market_data_model.type
+        market_data_serialized = {}
+        market_data_serialized['id'] = market_data_model.id
+        market_data_serialized['value'] = market_data_model.value
+        market_data_serialized['data_type'] = market_data_model.type
         
         data_date = market_data_model.date
-        market_data_serialized.date = datetime(data_date.year, data_date.month, data_date.day)
+        market_data_serialized['date'] = datetime(data_date.year, data_date.month, data_date.day)
         
         return market_data_serialized
     
     def instrument_model_to_serialized(self, instrument_model):
         
         # build the serialized object
-        instrument_serialized = InstrumentSerialized()
-        instrument_serialized.id = instrument_model.id
-        instrument_serialized.ticker = instrument_model.ticker
-        instrument_serialized.name = instrument_model.name
-        instrument_serialized.exchange = instrument_model.exchange
-        instrument_serialized.rolling_month = instrument_model.rolling_month
-        instrument_serialized.currency = instrument_model.currency
-        instrument_serialized.point_value = instrument_model.point_value
-        instrument_serialized.transactions_fees = instrument_model.transactions_fees
-        instrument_serialized.asset_class = instrument_model.asset_class
-        instrument_serialized.instrument_type = instrument_model.type
-        instrument_serialized.datas = []
+        instrument_serialized = {}
+        instrument_serialized['id'] = instrument_model.id
+        instrument_serialized['ticker'] = instrument_model.ticker
+        instrument_serialized['name'] = instrument_model.name
+        instrument_serialized['exchange'] = instrument_model.exchange
+        instrument_serialized['rolling_month'] = instrument_model.rolling_month
+        instrument_serialized['currency'] = instrument_model.currency
+        instrument_serialized['point_value'] = instrument_model.point_value
+        instrument_serialized['transactions_fees'] = instrument_model.transactions_fees
+        instrument_serialized['asset_class'] = instrument_model.asset_class
+        instrument_serialized['instrument_type'] = instrument_model.type
+        instrument_serialized['datas'] = []
             
         return instrument_serialized
 
@@ -95,7 +93,7 @@ class InstrumentService(object):
         for market_data in datas:
             self.logger.debug('Appending data %s at %s for %s'%(market_data.type,market_data.date,ticker))
             serialized = self.market_data_model_to_serialized(market_data)
-            instrument.datas.append(serialized)
+            instrument['datas'].append(serialized)
             
         return instrument
 
