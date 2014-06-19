@@ -75,36 +75,36 @@ class BacktestService(object):
         @param instrument: the serialized instrument
         @return: a financial instrument 
         '''
-        financial_instrument = FinancialInstrument(ticker = instrument.ticker, name = instrument.name, 
-                                                   asset_class = instrument.asset_class, currency=instrument.currency,
-                                                   type = instrument.instrument_type, transactions_fees = instrument.transactions_fees,
-                                                   point_value = instrument.point_value)
+        financial_instrument = FinancialInstrument(ticker = instrument['ticker'], name = instrument['name'], 
+                                                   asset_class = instrument['asset_class'], currency=instrument['currency'],
+                                                   type = instrument['instrument_type'], transactions_fees = instrument['transactions_fees'],
+                                                   point_value = instrument['point_value'])
         
         # fill the data_map from instrument data
-        for data in instrument.datas:
-            data_date = data.date
+        for data in instrument['datas']:
+            data_date = data['date']
             
             if isinstance(data_date, datetime):
                 data_date = data_date.date()
                 
-            if data.data_type == 'CLOSE':
-                financial_instrument.set_close_value(data_date, data.value)
-            elif data.data_type == 'ADJUSTED_CLOSE':
-                financial_instrument.set_adjusted_close_value(data_date, data.value)
-            elif data.data_type == 'OPEN':
-                financial_instrument.set_open_value(data_date, data.value)
-            elif data.data_type == 'HIGH':
-                financial_instrument.set_high_value(data_date, data.value)
-            elif data.data_type == 'LOW':
-                financial_instrument.set_low_value(data_date, data.value)
-            elif data.data_type == 'OPEN_INTEREST':
-                financial_instrument.set_open_interest(data_date, data.value)
-            elif data.data_type == 'VOLUME':
-                financial_instrument.set_volume(data_date, data.value)
-            elif data.data_type == 'REFERENCE_MONTH':
-                financial_instrument.set_reference_month(data_date, data.value)
+            if data['data_type'] == 'CLOSE':
+                financial_instrument.set_close_value(data_date, data['value'])
+            elif data['data_type'] == 'ADJUSTED_CLOSE':
+                financial_instrument.set_adjusted_close_value(data_date, data['value'])
+            elif data['data_type'] == 'OPEN':
+                financial_instrument.set_open_value(data_date, data['value'])
+            elif data['data_type'] == 'HIGH':
+                financial_instrument.set_high_value(data_date, data['value'])
+            elif data['data_type'] == 'LOW':
+                financial_instrument.set_low_value(data_date, data['value'])
+            elif data['data_type'] == 'OPEN_INTEREST':
+                financial_instrument.set_open_interest(data_date, data['value'])
+            elif data['data_type'] == 'VOLUME':
+                financial_instrument.set_volume(data_date, data['value'])
+            elif data['data_type'] == 'REFERENCE_MONTH':
+                financial_instrument.set_reference_month(data_date, data['value'])
             else:
-                raise ServerError('No type %s '%data.type)
+                raise ServerError('No type %s '%data['type'])
                     
         return financial_instrument
     

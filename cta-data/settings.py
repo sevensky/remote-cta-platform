@@ -1,10 +1,13 @@
+# Path to data
+path = 'C:\\Users\\Julien\\Documents\\Data\\'
+
 # prod
-db_engine = 'mysql'
-db_name = 'db_cta'
-host = 'localhost'
-port = '3306'
-user = 'betools'
-password = 'free35*tk'
+# db_engine = 'mysql'
+# db_name = 'db_cta'
+# host = 'localhost'
+# port = '3306'
+# user = 'betools'
+# password = 'free35*tk'
 
 # test
 #db_engine = 'mysql'
@@ -23,9 +26,9 @@ password = 'free35*tk'
 # password = ''
 
 # local test
-#db_engine = 'sqlite'
-#db_name = 'db_cta_test'
-#host = ''
-#port = ''
-#user = ''
-#password = ''
+db_engine = 'sqlite'
+db_name = 'db_cta_test'
+host = ''
+port = ''
+user = ''
+password = ''

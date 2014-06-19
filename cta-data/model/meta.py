@@ -16,7 +16,8 @@ if settings.db_engine == 'mysql':
                                                   settings.port,
                                                   settings.db_name))
 else:
-    engine = create_engine('sqlite:///cta.db')
+    path = 'sqlite:///%s%s.db'%(settings.path, settings.db_name)
+    engine = create_engine(path)
 
 Session = sessionmaker(bind=engine)
 

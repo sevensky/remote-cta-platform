@@ -21,7 +21,7 @@ from dao.market_data_dao import MarketDataDAO
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('InstrumentFiller')
 
-data_repository = '/home/julien/Data/cta/'
+data_repository = 'C:\\Users\\Julien\\Documents\\Data\\'
 
 session = Session()
 instrument_dao = InstrumentDAO()
@@ -72,6 +72,8 @@ def _download_zip(url, file_name):
 
 def _fill_market_data(file_name, instrument):
     reader = csv.reader(open(file_name, 'r'))
+
+    data_list = []
     
     for row in reader:
         # set the current_date from string
@@ -79,108 +81,70 @@ def _fill_market_data(file_name, instrument):
         current_date = date(t.tm_year, t.tm_mon, t.tm_mday)
         
         # open
-        open_price = market_data_dao.get_data(session,
-                                              instrument,
-                                              current_date,
-                                              DataType.OPEN)
-        if not open_price:
-            open_price = MarketData()
+        open_price = MarketData()
         open_price.value = float(row[1])
         open_price.instrument = instrument
         open_price.type = DataType.OPEN
         open_price.date = current_date
-        market_data_dao.save(session, open_price)
+        data_list.append(open_price)
         
         # high
-        high = market_data_dao.get_data(session,
-                                        instrument,
-                                        current_date,
-                                        DataType.HIGH)
-        if not high:
-            high = MarketData()
+        high = MarketData()
         high.value = float(row[2])
         high.instrument = instrument
         high.type = DataType.HIGH
         high.date = current_date
-        market_data_dao.save(session, high)
+        data_list.append(high)
         
         # low
-        low = market_data_dao.get_data(session,
-                                       instrument,
-                                       current_date,
-                                       DataType.LOW)
-        if not low:
-            low = MarketData()
+        low = MarketData()
         low.value = float(row[3])
         low.instrument = instrument
         low.type = DataType.LOW
         low.date = current_date
-        market_data_dao.save(session, low)
+        data_list.append(low)
         
         # adj close
-        adj_close = market_data_dao.get_data(session,
-                                             instrument,
-                                             current_date,
-                                             DataType.ADJUSTED_CLOSE)
-        if not adj_close:
-            adj_close = MarketData()
+        adj_close = MarketData()
         adj_close.value = float(row[4])
         adj_close.instrument = instrument
         adj_close.type = DataType.ADJUSTED_CLOSE
         adj_close.date = current_date
-        market_data_dao.save(session, adj_close)
+        data_list.append(adj_close)
         
         # volume
-        volume = market_data_dao.get_data(session,
-                                          instrument,
-                                          current_date,
-                                          DataType.VOLUME)
-        if not volume:
-            volume = MarketData()
+        volume = MarketData()
         volume.value = float(row[5])
         volume.instrument = instrument
         volume.type = DataType.VOLUME
         volume.date = current_date
-        market_data_dao.save(session, volume)
+        data_list.append(volume)
         
         # open interest
-        open_interest = market_data_dao.get_data(session,
-                                                 instrument,
-                                                 current_date,
-                                                 DataType.OPEN_INTEREST)
-        if not open_interest:
-            open_interest = MarketData()
+        open_interest = MarketData()
         open_interest.value = float(row[6])
         open_interest.instrument = instrument
         open_interest.type = DataType.OPEN_INTEREST
         open_interest.date = current_date
-        market_data_dao.save(session, open_interest)
+        data_list.append(open_interest)
         
         # reference month
-        reference_month = market_data_dao.get_data(session,
-                                                   instrument,
-                                                   current_date,
-                                                   DataType.REFERENCE_MONTH)
-        if not reference_month:
-            reference_month = MarketData()
+        reference_month = MarketData()
         reference_month.value = int(row[7])
         reference_month.instrument = instrument
         reference_month.type = DataType.REFERENCE_MONTH
         reference_month.date = current_date
-        market_data_dao.save(session, reference_month)
+        data_list.append(reference_month)
         
         # close
-        close = market_data_dao.get_data(session,
-                                         instrument,
-                                         current_date,
-                                         DataType.CLOSE)
-        if not close:
-            close = MarketData()
+        close = MarketData()
         close.value = float(row[8])
         close.instrument = instrument
         close.type = DataType.CLOSE
         close.date = current_date
-        market_data_dao.save(session, close)
+        data_list.append(close)
+        
+    market_data_dao.save_all(session, data_list)
         
 def _unzip_file(file_name):
     zip_file = ZipFile(file_name)
