@@ -23,7 +23,6 @@ class Instrument(Base):
     asset_class = Column(String(50))
     type = Column(String(50))
     datas = relation("MarketData", backref="ins", order_by="MarketData.date", lazy="dynamic")
-#    datas = relation("MarketData", backref="ins", order_by="MarketData.date")
     
     def __repr__(self):
         return self.name

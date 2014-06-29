@@ -6,7 +6,6 @@ from dao.instrument_dao import InstrumentDAO
 from dao.market_data_dao import MarketDataDAO
 from data_error import DataError
 from datetime import datetime, date
-from model.market_data import MarketData
 from model.meta import Session
 from server_error import ServerError
 import logging
@@ -16,8 +15,6 @@ class InstrumentService(object):
     logger = logging.getLogger('InstrumentService')
     
     def __init__(self):
-        
-        self.__session = Session()
         
         self.__instrument_dao = InstrumentDAO()
     
@@ -74,26 +71,31 @@ class InstrumentService(object):
         try:
             self.logger.info('Asking data for %s between %s and %s'%(ticker, first_date, last_date))
             # get the model
-            model = self.__instrument_dao.get_by_ticker(self.__session, ticker)
+            session = Session()
+            
+            model = self.__instrument_dao.get_by_ticker(session, ticker)
+            
+            # convert into serialized object
+            if model:
+                instrument = self.instrument_model_to_serialized(model)
+        
+            # fill data
+            first_date_converted = self.get_date(first_date)
+            
+            last_date_converted = self.get_date(last_date)
+        
+            datas = self.__market_data_dao.get_data_range(session, model, first_date_converted, last_date_converted)
+        
+            for market_data in datas:
+                self.logger.debug('Appending data %s at %s for %s'%(market_data.type,market_data.date,ticker))
+                serialized = self.market_data_model_to_serialized(market_data)
+                instrument['datas'].append(serialized)
+                
         except DataError, e:
             self.logger.error(e.message)
             raise ServerError(e.message)
-        
-        # convert into serialized object
-        if model:
-            instrument = self.instrument_model_to_serialized(model)
-        
-        # fill data
-        first_date_converted = self.get_date(first_date)
-            
-        last_date_converted = self.get_date(last_date)
-        
-        datas = model.datas.filter(MarketData.date >= first_date_converted).filter(MarketData.date <= last_date_converted)
-        
-        for market_data in datas:
-            self.logger.debug('Appending data %s at %s for %s'%(market_data.type,market_data.date,ticker))
-            serialized = self.market_data_model_to_serialized(market_data)
-            instrument['datas'].append(serialized)
+        finally:
+            session.close()
             
         return instrument
 

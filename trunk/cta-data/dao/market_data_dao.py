@@ -88,6 +88,22 @@ class MarketDataDAO(object):
         
         return data
         
+    def get_data_range(self, session, instrument, from_date, to_date):
+        '''
+        get market data range by instrument between two dates
+        @param session: sqlalchemy session
+        @param instrument: the instrument
+        @param from_date: begin date
+        @param: to_date: end date 
+        '''
+        
+        try:
+            data = instrument.datas.filter(MarketData.date >= from_date).filter(MarketData.date <= to_date)
+        except Exception, e:
+            raise DataError(e.message)
+        
+        return data
+
 
     def get_last_date(self, session, instrument):
         '''
