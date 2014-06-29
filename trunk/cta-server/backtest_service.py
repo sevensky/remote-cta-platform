@@ -38,7 +38,7 @@ class BacktestService(object):
         indicator_type = indicator_settings['indicator_type']
         building_type = indicator_settings['building_type']
         parameters = map(float, indicator_settings['parameters'].split('_'))
-        indicator_id = indicator_settings['name']
+        indicator_id = indicator_settings['name']+instrument.ticker
         
         if indicator_type in (IndicatorType.BESSEL, IndicatorType.BUTTERWORTH, IndicatorType.CHEBYSCHEV):
             indicator = DigitalFilterIndicator(indicator_id, indicator_type, building_type, instrument, parameters)
@@ -180,7 +180,7 @@ class BacktestService(object):
         # add condition bundle
         for condition_bundle_setting in backtest_settings['condition_bundle_settings']:
             current_block = blocks_cache[condition_bundle_setting['trading_block_name']]
-            current_indicator = indicators_cache[condition_bundle_setting['indicator_name']]
+            current_indicator = indicators_cache[condition_bundle_setting['indicator_name'] + current_block.instrument.ticker]
             strategy.add_condition_bundle_to_trading_block(current_block,
                                                            condition_bundle_setting['regime_type'],
                                                            current_indicator)
