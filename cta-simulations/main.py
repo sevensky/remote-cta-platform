@@ -35,14 +35,14 @@ def get_backtest_settings(name, tickers, first_date, last_date, initial_amount, 
         backtest_settings['indicator_settings'].append(indicator_settings)
         
         trading_block_buy_settings = {}
-        trading_block_buy_settings['name'] = 'Buy'
+        trading_block_buy_settings['name'] = 'Buy'.join(ticker)
         trading_block_buy_settings['order_type'] = 'BUY'
         trading_block_buy_settings['ticker'] = ticker
         
         backtest_settings['trading_block_settings'].append(trading_block_buy_settings)
         
         trading_block_sell_settings = {}
-        trading_block_sell_settings['name'] = 'Sell'
+        trading_block_sell_settings['name'] = 'Sell'.join(ticker)
         trading_block_sell_settings['order_type'] = 'SELL'
         trading_block_sell_settings['ticker'] = ticker
         
@@ -50,14 +50,14 @@ def get_backtest_settings(name, tickers, first_date, last_date, initial_amount, 
         
         condition_bundle_buy_settings = {}
         condition_bundle_buy_settings['regime_type'] = 'BULL'
-        condition_bundle_buy_settings['trading_block_name'] = 'Buy'
+        condition_bundle_buy_settings['trading_block_name'] = 'Buy'.join(ticker)
         condition_bundle_buy_settings['indicator_name'] = indicator_name
         
         backtest_settings['condition_bundle_settings'].append(condition_bundle_buy_settings)
         
         condition_bundle_sell_settings = {}
         condition_bundle_sell_settings['regime_type'] = 'BEAR'
-        condition_bundle_sell_settings['trading_block_name'] = 'Sell'
+        condition_bundle_sell_settings['trading_block_name'] = 'Sell'.join(ticker)
         condition_bundle_sell_settings['indicator_name'] = indicator_name
         
         backtest_settings['condition_bundle_settings'].append(condition_bundle_sell_settings)
@@ -65,14 +65,14 @@ def get_backtest_settings(name, tickers, first_date, last_date, initial_amount, 
         quantity_buy_settings = {}
         quantity_buy_settings['allocation'] = allocation
         quantity_buy_settings['quantity_computer_type'] = quantity_type
-        quantity_buy_settings['trading_block_name'] = 'Buy'
+        quantity_buy_settings['trading_block_name'] = 'Buy'.join(ticker)
         
         backtest_settings['quantity_settings'].append(quantity_buy_settings)
         
         quantity_sell_settings = {}
         quantity_sell_settings['allocation'] = allocation
         quantity_sell_settings['quantity_computer_type'] = quantity_type
-        quantity_sell_settings['trading_block_name'] = 'Sell'
+        quantity_sell_settings['trading_block_name'] = 'Sell'.join(ticker)
         
         backtest_settings['quantity_settings'].append(quantity_sell_settings)
 
@@ -89,8 +89,8 @@ if __name__ == '__main__':
                'LC','LH','FC',
                'SI','PA','PL','GC','HG',
                'SB','CT','OJ','CC','KC','LB']
-    tickers=['AD']
-    first_date = datetime(2000,1,3)
+    tickers = ['AD','EC']
+    first_date = datetime(2008,1,2)
     last_date = datetime(2012,12,31)
     initial_amount = 1.e6
     currency = 'USD'
