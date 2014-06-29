@@ -16,7 +16,7 @@ from backtest_service import BacktestService
 
 if __name__ == "__main__":
     
-    logging.basicConfig(level=logging.ERROR)
+    logging.basicConfig(level=logging.INFO)
     
     server = SimpleXMLRPCServer(('0.0.0.0', 8080))
     server.register_introspection_functions()
