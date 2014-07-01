@@ -26,7 +26,7 @@ class MarketData(Base):
 
     def __eq__(self, other):
         return isinstance(other, MarketData) and self.id == other.id
-    
+     
     def __hash__(self):
         return hash(id)
     

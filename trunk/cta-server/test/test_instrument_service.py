@@ -39,6 +39,7 @@ class TestInstrumentService(unittest.TestCase):
         market_data_dao = MarketDataDAO()
         market_data_dao.save(session, market_data)
         
+        
         self.instrument_service = InstrumentService() 
 
     def tearDown(self):
@@ -54,7 +55,7 @@ class TestInstrumentService(unittest.TestCase):
         
         instrument_serialized = self.instrument_service.get_by_ticker('MyTicker', datetime(2001,1,1), datetime(2030,1,1))
         self.assertEqual(len(instrument_serialized['datas']), 0, 'empty market data')
-        
+    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
