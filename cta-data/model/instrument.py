@@ -29,6 +29,6 @@ class Instrument(Base):
     
     def __eq__(self, other):
         return isinstance(other, Instrument) and self.id == other.id
-    
+     
     def __hash__(self):
         return hash(id)
