@@ -21,7 +21,7 @@ from dao.market_data_dao import MarketDataDAO
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('InstrumentFiller')
 
-data_repository = 'C:\\Users\\Julien\\Documents\\Data\\'
+data_repository = '/home/julien/Data/'
 
 session = Session()
 instrument_dao = InstrumentDAO()
