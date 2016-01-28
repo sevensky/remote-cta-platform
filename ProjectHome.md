@@ -1,0 +1,2 @@
+My backtesting platform allows its users to simulate in the past some trading algorithm without any programming skills.
+Based on the client/server architecture, user has just to submit a XML human friendly file to the computation server.
